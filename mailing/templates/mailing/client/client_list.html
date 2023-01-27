@@ -1,0 +1,31 @@
+{% extends 'mailing/base.html' %}
+
+{% block client %}
+    <div class="container-xl">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ФИО</th>
+                <th scope="col">Email</th>
+                <th scope="col">Комментарий</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ object.id }}</th>
+                    <td>{{ object.fio }}</td>
+                    <td>{{ object.email }}</td>
+                    <td>{{ object.comment }}</td>
+                    <td><a class="text-black" href="{% url 'mailing:update_client' object.pk %}">Изменить</a></td>
+                    <td><a class="text-black" href="{% url 'mailing:delete_client' object.pk %}">Удалить</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:create_client' %}">Добавить пользователя</a></td>
+    </div>
+
+{% endblock %}

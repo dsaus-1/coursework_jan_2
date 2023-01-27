@@ -1,0 +1,30 @@
+{% extends 'mailing/base.html' %}
+
+{% block status %}
+    <div class="container-xl">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Время рассылки</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Ответ сервера</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ object.id }}</th>
+                    <td>{{ object.sending_time }}</td>
+                    <td>{{ object.status }}</td>
+                    <td>{{ object.server_response }}</td>
+                    <td><a class="text-black" href="{% url 'mailing:delete_status' object.pk %}">Удалить</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}
