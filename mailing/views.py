@@ -90,13 +90,23 @@ class Send_messageDeleteView(DeleteView):
 
 
 def send(request, pk):
-    #obj_mail = get_object_or_404(Message, pk=pk)
+    obj_mail = get_object_or_404(Message, pk=pk)
     # if obj_mail.settings.status == 'не доставлено':
     #     if obj_mail.settings.mailing_time
-    send_mail(
-        subject='obj_mail.title',
-        message='obj_mail.text',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=['regareg198@gmail.com'],
-    )
-    return redirect(reverse('mailing:detail_message'))
+    mail_list = obj_mail.addressee.all()
+
+    for num in range(len(mail_list)):
+
+        send_mail(
+            subject=obj_mail.title,
+            message=obj_mail.text,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[mail_list[num].email],
+        )
+    return redirect(reverse('mailing:detail_message', kwargs={'pk':pk}))
+
+
+# class RegisterUser(DataMixin, CreateView):
+#     form_class = UserCreationForm
+#     template_name = 'mailing/register_form.html'
+#     success_url = reverse_lazy('mailing:login')

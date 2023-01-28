@@ -9,13 +9,17 @@
 </head>
 <header>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+
         <h5 class="">Спам и точка</h5>
         <nav class="ms-5">
-            <a class="p-2 btn btn-dark" href="{% url 'mailing:home' %}">Главная</a>
-            <a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Настроить рассылку</a>
-            <a class="p-2 btn btn-dark" href="{% url 'mailing:client' %}">База пользователей</a>
-            <a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Сообщения</a>
-            <a class="p-2 btn btn-dark" href="{% url 'mailing:status' %}">Статус рассылки</a>
+            <div>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:home' %}">Главная</a>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Настроить рассылку</a>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:client' %}">База пользователей</a>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Сообщения</a>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:status' %}">Статус рассылки</a>
+                <a class="text-muted" href="#">Вход</a>
+            </div>
         </nav>
     </div>
     <style>

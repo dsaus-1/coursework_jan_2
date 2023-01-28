@@ -53,9 +53,10 @@ class Message(models.Model):
 
     title = models.CharField(max_length=80, verbose_name='Тема письма')
     text = models.TextField(verbose_name='Тело письма')
-    settings = models.ForeignKey(Settings, on_delete=models.PROTECT)
+    settings = models.ForeignKey(Settings, on_delete=models.PROTECT, verbose_name='Настройки')
 
-    addressee = models.ManyToManyField(Client)
+    addressee = models.ManyToManyField(Client, verbose_name='Адреса')
+
 
     class Meta:
         verbose_name = 'письмо'
