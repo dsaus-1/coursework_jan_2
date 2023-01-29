@@ -14,6 +14,7 @@ urlpatterns = [
     path('create_settings/', SettingsCreateView.as_view(), name='create_settings'),
     path('update_settings/<int:pk>/', SettingsUpdateView.as_view(), name='update_settings'),
     path('delete_settings/<int:pk>/', SettingsDeleteView.as_view(), name='delete_settings'),
+    path('detail_settings/<int:pk>/', SettingsDetailView.as_view(), name='detail_settings'),
     path('message/', MessageListView.as_view(), name='message'),
     path('create_message/', MessageCreateView.as_view(), name='create_message'),
     path('update_message/<int:pk>/', MessageUpdateView.as_view(), name='update_message'),

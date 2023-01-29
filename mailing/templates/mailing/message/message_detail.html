@@ -8,17 +8,12 @@
         <p class="h2">{{ object.title|capfirst }}</p>
         <p>
             <br>
-            <br>
         </p>
         <p>{{ object.text }}</p>
         <br>
-        <p>В рассылку добавлены: {% for client in object.addressee.all %}
-            {{ client.email }},
-        {% endfor %}</p>
-        <p>Частота: {{ object.settings.frequency }}</p>
-        <p>Статус: {{ object.settings.status }}</p>
+
         <td><a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Назад</a></td>
-        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:send' object.pk %}">Отправить сейчас</a></td>
+
     </div>
 
 {% endblock %}

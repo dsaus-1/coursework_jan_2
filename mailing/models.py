@@ -49,7 +49,7 @@ class Settings(models.Model):
     mailing_time = models.TimeField(verbose_name='Время рассылки')
     frequency = models.CharField(max_length=25, default=FREQUENCY_DAY, choices=FREQUENCY, verbose_name='Периодичность')
     status = models.CharField(max_length=25, default=STATUS_CREATED, choices=STATUS, verbose_name='Статус')
-    message = models.ForeignKey(Message, on_delete=models.PROTECT, verbose_name='Сообщение')
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='Сообщение')
 
     addressee = models.ManyToManyField(Client, verbose_name='Адреса')
 
@@ -73,7 +73,7 @@ class Send_message(models.Model):
     status = models.CharField(max_length=25, default=STATUS_DELIVERED, choices=STATUS, verbose_name='Статус')
     server_response = models.CharField(blank=True, max_length=100, verbose_name='Ответ сервера')
 
-    message = models.ForeignKey(Message, on_delete=models.PROTECT)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
 
 
     class Meta:
@@ -81,7 +81,7 @@ class Send_message(models.Model):
         verbose_name_plural = 'Попытка рассылки'
 
     def __str__(self):
-        return f'{self.sending_time} {self.status} {self.server_response}'
+        return f'{self.sending_time} {self.status} {self.server_response} {self.message}'
 
 
 

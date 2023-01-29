@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
 
     'mailing',
 ]
@@ -141,6 +142,11 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'regareg198@yandex.ru'
 EMAIL_HOST_PASSWORD = 'uujfafiznkigoqpr'
 EMAIL_USE_SSL = True
+
+
+CRONJOBS = [
+    ('*/5 * * * *', 'myapp.cron.my_scheduled_job')
+]
 
 
 

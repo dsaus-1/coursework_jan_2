@@ -1,0 +1,25 @@
+{% extends 'mailing/base.html' %}
+
+{% block detail_settings%}
+    <div class="container-xl">
+        <br>
+        <br>
+
+        <p class="h2">{{ object.message.title }}</p>
+        <p>
+            <br>
+        </p>
+        <p>{{ object.message.text }}</p>
+        <br>
+        <br>
+        <p>Периодичность:   {{ object.get_frequency_display }} </p>
+        <p>Статус:   {{ object.get_status_display }} </p>
+        <p>Адреса получателей: {% for address in object.addressee.all %}
+                        < {{ address.email }} >
+                        {% endfor %} </p>
+
+        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Назад</a></td>
+
+    </div>
+
+{% endblock %}

@@ -8,9 +8,6 @@
                 <th scope="col">#</th>
                 <th scope="col">Тема</th>
                 <th scope="col">Тело письма</th>
-                <th scope="col">Периодичность</th>
-                <th scope="col">Статус</th>
-                <th scope="col">Пользователи</th>
             </tr>
             </thead>
             <tbody>
@@ -19,8 +16,6 @@
                     <th scope="row">{{ object.id }}</th>
                     <td>{{ object.title|capfirst }}</td>
                     <td>{{ object.text|truncatechars:150 }}</td>
-                    <td>{{ object.settings.frequency }}</td>
-                    <td>{{ object.settings.status }}</td>
                     <td><a class="text-black" href="{% url 'mailing:detail_message' object.pk %}">Подробнее</a></td>
                     <td><a class="text-black" href="{% url 'mailing:update_message' object.pk %}">Изменить</a></td>
                     <td><a class="text-black" href="{% url 'mailing:delete_message' object.pk %}">Удалить</a></td>
@@ -30,6 +25,10 @@
             </tbody>
         </table>
         <td><a class="p-2 btn btn-dark" href="{% url 'mailing:create_message' %}">Добавить письмо</a></td>
+    <br>
+    <br>
+        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Продолжить настройку</a></td>
     </div>
+
 
 {% endblock %}

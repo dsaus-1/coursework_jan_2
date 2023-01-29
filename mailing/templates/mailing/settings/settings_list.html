@@ -9,6 +9,8 @@
                 <th scope="col">Время рассылки</th>
                 <th scope="col">Периодичность</th>
                 <th scope="col">Статус</th>
+                <th scope="col">Сообщение</th>
+                <th scope="col">Адреса рассылки</th>
             </tr>
             </thead>
             <tbody>
@@ -16,8 +18,14 @@
                 <tr>
                     <th scope="row">{{ object.id }}</th>
                     <td>{{ object.mailing_time }}</td>
-                    <td>{{ object.frequency }}</td>
-                    <td>{{ object.status }}</td>
+                    <td>{{ object.get_frequency_display }}</td>
+                    <td>{{ object.get_status_display }}</td>
+                    <td>{{ object.message.title }}</td>
+                    <td>{% for address in object.addressee.all %}
+                        {{ address.email }}<br>
+                        {% endfor %}
+                </td>
+                    <td><a class="text-black" href="{% url 'mailing:detail_settings' object.pk %}">Подробнее</a></td>
                     <td><a class="text-black" href="{% url 'mailing:update_settings' object.pk %}">Изменить</a></td>
                     <td><a class="text-black" href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a></td>
                 </tr>
@@ -25,7 +33,7 @@
 
             </tbody>
         </table>
-        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:create_settings' %}">Добавить настройку рассылки</a></td>
+        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:create_settings' %}">Создать новую рассылку</a></td>
     </div>
 
 {% endblock %}

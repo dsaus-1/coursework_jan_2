@@ -37,13 +37,13 @@ class SettingsListView(ListView):
 
 class SettingsCreateView(CreateView):
     model = Settings
-    fields = ('mailing_time', 'frequency', 'status')
+    fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
 
 class SettingsUpdateView(UpdateView):
     model = Settings
-    fields = ('mailing_time', 'frequency', 'status')
+    fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
 
@@ -52,6 +52,11 @@ class SettingsDeleteView(DeleteView):
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_confirm_delete.html'
 
+class SettingsDetailView(DetailView):
+    model = Settings
+    success_url = reverse_lazy('mailing:settings')
+    template_name = 'mailing/settings/settings_detail.html'
+
 
 class MessageListView(ListView):
     model = Message
@@ -59,13 +64,13 @@ class MessageListView(ListView):
 
 class MessageCreateView(CreateView):
     model = Message
-    fields = ('title', 'text', 'settings', 'addressee')
+    fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
 
 class MessageUpdateView(UpdateView):
     model = Message
-    fields = ('title', 'text', 'settings', 'addressee')
+    fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
 

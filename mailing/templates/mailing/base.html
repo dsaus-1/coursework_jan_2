@@ -14,9 +14,8 @@
         <nav class="ms-5">
             <div>
                 <a class="p-2 btn btn-dark" href="{% url 'mailing:home' %}">Главная</a>
-                <a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Настроить рассылку</a>
+                <a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Настроить рассылку</a>
                 <a class="p-2 btn btn-dark" href="{% url 'mailing:client' %}">База пользователей</a>
-                <a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Сообщения</a>
                 <a class="p-2 btn btn-dark" href="{% url 'mailing:status' %}">Статус рассылки</a>
                 <a class="text-muted" href="#">Вход</a>
             </div>
@@ -62,6 +61,8 @@
     {% block settings %}
     {% endblock %}
     {% block settings_create %}
+    {% endblock %}
+    {% block detail_settings %}
     {% endblock %}
 
     {% block message %}
