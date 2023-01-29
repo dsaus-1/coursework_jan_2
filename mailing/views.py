@@ -103,6 +103,7 @@ def send(request, pk):
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[mail_list[num].email],
         )
+
     return redirect(reverse('mailing:detail_message', kwargs={'pk':pk}))
 
 

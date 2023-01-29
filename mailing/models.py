@@ -1,26 +1,5 @@
 from django.db import models
 
-
-
-class Frequency(models.Model):
-    frequency = models.CharField(max_length=60, verbose_name='периодичность')
-
-    def __str__(self):
-        return f'{self.frequency}'
-
-class Status_settings(models.Model):
-    status = models.CharField(max_length=60, verbose_name='статус')
-
-    def __str__(self):
-        return f'{self.status}'
-
-class Sending_status(models.Model):
-    status = models.CharField(max_length=60, verbose_name='статус')
-
-    def __str__(self):
-        return f'{self.status}'
-
-
 class Client(models.Model):
 
     email = models.EmailField(max_length=60, verbose_name='Email')
@@ -35,11 +14,44 @@ class Client(models.Model):
         return f'{self.email} {self.fio}'
 
 
+class Message(models.Model):
+
+    title = models.CharField(max_length=80, verbose_name='Тема письма')
+    text = models.TextField(verbose_name='Тело письма')
+
+    class Meta:
+        verbose_name = 'письмо'
+        verbose_name_plural = 'письма'
+
+    def __str__(self):
+        return f'{self.title} {self.text}'
+
+
 class Settings(models.Model):
+    FREQUENCY = (
+        ('day', 'раз в день'),
+        ('week', 'раз в неделю'),
+        ('month', 'раз в месяц'),
+    )
+    FREQUENCY_DAY = 'day'
+    FREQUENCY_WEEK = 'week'
+    FREQUENCY_MONTH = 'month'
+
+    STATUS = (
+        ('completed', 'завершена'),
+        ('created', 'создана'),
+        ('launched', 'запущена'),
+    )
+    STATUS_COMPLETED = 'completed'
+    STATUS_CREATED = 'created'
+    STATUS_LAUNCHED = 'launched'
 
     mailing_time = models.TimeField(verbose_name='Время рассылки')
-    frequency = models.ForeignKey(Frequency, on_delete=models.PROTECT)
-    status = models.ForeignKey(Status_settings, on_delete=models.PROTECT)
+    frequency = models.CharField(max_length=25, default=FREQUENCY_DAY, choices=FREQUENCY, verbose_name='Периодичность')
+    status = models.CharField(max_length=25, default=STATUS_CREATED, choices=STATUS, verbose_name='Статус')
+    message = models.ForeignKey(Message, on_delete=models.PROTECT, verbose_name='Сообщение')
+
+    addressee = models.ManyToManyField(Client, verbose_name='Адреса')
 
     class Meta:
         verbose_name = 'настройки'
@@ -49,26 +61,16 @@ class Settings(models.Model):
         return f'{self.mailing_time}, {self.frequency}'
 
 
-class Message(models.Model):
-
-    title = models.CharField(max_length=80, verbose_name='Тема письма')
-    text = models.TextField(verbose_name='Тело письма')
-    settings = models.ForeignKey(Settings, on_delete=models.PROTECT, verbose_name='Настройки')
-
-    addressee = models.ManyToManyField(Client, verbose_name='Адреса')
-
-
-    class Meta:
-        verbose_name = 'письмо'
-        verbose_name_plural = 'письма'
-
-    def __str__(self):
-        return f'{self.title} {self.text}'
-
 class Send_message(models.Model):
+    STATUS = (
+        ('delivered', 'доставлено'),
+        ('not_delivered', 'не доставлено'),
+    )
+    STATUS_DELIVERED = 'delivered'
+    STATUS_NOT_DELIVERED = 'not_delivered'
 
     sending_time = models.DateTimeField(verbose_name='Время рассылки')
-    status = models.ForeignKey(Sending_status, on_delete=models.PROTECT)
+    status = models.CharField(max_length=25, default=STATUS_DELIVERED, choices=STATUS, verbose_name='Статус')
     server_response = models.CharField(blank=True, max_length=100, verbose_name='Ответ сервера')
 
     message = models.ForeignKey(Message, on_delete=models.PROTECT)

@@ -141,3 +141,6 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'regareg198@yandex.ru'
 EMAIL_HOST_PASSWORD = 'uujfafiznkigoqpr'
 EMAIL_USE_SSL = True
+
+
+
