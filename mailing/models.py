@@ -24,7 +24,7 @@ class Message(models.Model):
         verbose_name_plural = 'письма'
 
     def __str__(self):
-        return f'{self.title} {self.text}'
+        return f'{self.title}'
 
 
 class Settings(models.Model):
@@ -73,7 +73,7 @@ class Send_message(models.Model):
     status = models.CharField(max_length=25, default=STATUS_DELIVERED, choices=STATUS, verbose_name='Статус')
     server_response = models.CharField(blank=True, max_length=100, verbose_name='Ответ сервера')
 
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    settings_pk = models.ForeignKey(Settings, on_delete=models.CASCADE)
 
 
     class Meta:
@@ -81,7 +81,7 @@ class Send_message(models.Model):
         verbose_name_plural = 'Попытка рассылки'
 
     def __str__(self):
-        return f'{self.sending_time} {self.status} {self.server_response} {self.message}'
+        return f'{self.sending_time} {self.status} {self.server_response} '
 
 
 

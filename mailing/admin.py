@@ -21,5 +21,5 @@ class SettingsAdmin(admin.ModelAdmin):
 
 @admin.register(Send_message)
 class Send_messageAdmin(admin.ModelAdmin):
-    list_display = ('sending_time', 'status', 'server_response', 'message',)
-    list_filter = ('status', 'server_response', 'message',)
+    list_display = ('sending_time', 'status', 'server_response', 'settings_pk',)
+    list_filter = ('status', 'server_response', )

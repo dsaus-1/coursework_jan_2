@@ -22,6 +22,6 @@ urlpatterns = [
     path('detail_message/<int:pk>/', MessageDetailView.as_view(), name='detail_message'),
     path('status/', Send_messageListView.as_view(), name='status'),
     path('delete_status/<int:pk>/', Send_messageDeleteView.as_view(), name='delete_status'),
-    path('send/<int:pk>/', send, name='send'),
+    # path('send/<int:pk>/', send, name='send'),
 
 ]

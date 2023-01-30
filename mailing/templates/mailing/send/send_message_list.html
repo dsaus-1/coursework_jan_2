@@ -9,6 +9,7 @@
                 <th scope="col">Время рассылки</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Ответ сервера</th>
+                <th scope="col">Сообщение</th>
             </tr>
             </thead>
             <tbody>
@@ -18,6 +19,7 @@
                     <td>{{ object.sending_time }}</td>
                     <td>{{ object.status }}</td>
                     <td>{{ object.server_response }}</td>
+                    <td>{{ object.settings_pk.message.title|capfirst}}</td>
                     <td><a class="text-black" href="{% url 'mailing:delete_status' object.pk %}">Удалить</a></td>
                 </tr>
             {% endfor %}

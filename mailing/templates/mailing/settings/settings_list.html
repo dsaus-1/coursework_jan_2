@@ -23,8 +23,8 @@
                     <td>{{ object.message.title }}</td>
                     <td>{% for address in object.addressee.all %}
                         {{ address.email }}<br>
-                        {% endfor %}
-                </td>
+                    {% endfor %}
+                    </td>
                     <td><a class="text-black" href="{% url 'mailing:detail_settings' object.pk %}">Подробнее</a></td>
                     <td><a class="text-black" href="{% url 'mailing:update_settings' object.pk %}">Изменить</a></td>
                     <td><a class="text-black" href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a></td>
@@ -34,6 +34,9 @@
             </tbody>
         </table>
         <td><a class="p-2 btn btn-dark" href="{% url 'mailing:create_settings' %}">Создать новую рассылку</a></td>
+        <br>
+        <br>
+        <td><a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Назад</a></td>
     </div>
 
 {% endblock %}

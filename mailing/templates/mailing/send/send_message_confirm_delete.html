@@ -8,7 +8,7 @@
                     <form enctype="multipart/form-data" method="post" class="text-center">
                         {% csrf_token %}
                         <p>
-                            Удалить статус рассылки "{{ object.message.title|capfirst }}"?
+                            Удалить статус рассылки "{{ object.settings_pk.message.title|capfirst }}"?
                         </p>
                         <a class="text-muted" href="{% url 'mailing:status' %}">Отменить</a>
                         <button class="p-2 btn btn-dark" type="submit">Удалить</button>

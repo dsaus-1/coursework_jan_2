@@ -145,7 +145,7 @@ EMAIL_USE_SSL = True
 
 
 CRONJOBS = [
-    ('*/5 * * * *', 'myapp.cron.my_scheduled_job')
+    ('* * * * *', 'mailing.services.automatic_mailing')
 ]
 
 
