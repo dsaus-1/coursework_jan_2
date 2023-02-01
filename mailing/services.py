@@ -1,37 +1,39 @@
 from mailing.models import *
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 
 from mailing.supportive_services import send_message
 
 
 def automatic_mailing():
 
-    status_list = []
-
     for active_settings in Settings.objects.all():
 
-        if active_settings.status == 'launched':
+        if active_settings.status == Settings.STATUS_LAUNCHED:
             obj = Send_message.objects.filter(settings_pk=active_settings.id).last()
-            mail_list = active_settings.addressee.all()
 
-            if obj == None:
+            if obj is None:
+                mailing_time = active_settings.mailing_time.replace(second=0, microsecond=0)
+                time_now = datetime.now().time().replace(second=0, microsecond=0)
 
-                if active_settings.mailing_time.replace(second=0, microsecond=0) == datetime.now().time().replace(second=0, microsecond=0):
-                    send_message(mail_list, active_settings, status_list)
+                if mailing_time == time_now:
+                    send_message(active_settings)
 
             else:
                 frequency = active_settings.frequency
-                time = obj.sending_time
+                obj_time = obj.sending_time
 
-                if frequency == 'day':
-                    time += timedelta(days=1)
-                elif frequency == 'week':
-                    time += timedelta(days=7)
-                elif frequency == 'month':
-                    time += timedelta(days=30)
+                if frequency == Settings.FREQUENCY_DAY:
+                    obj_time += timedelta(days=1)
+                elif frequency == Settings.FREQUENCY_WEEK:
+                    obj_time += timedelta(days=7)
+                elif frequency == Settings.FREQUENCY_MONTH:
+                    obj_time += timedelta(days=30)
 
-                if time.replace(second=0, microsecond=0) == datetime.now().replace(second=0, microsecond=0):
-                    send_message(mail_list, active_settings, status_list)
+                obj_time = obj_time.replace(second=0, microsecond=0)
+                time_now = datetime.now().replace(second=0, microsecond=0)
+
+                if obj_time == time_now:
+                    send_message(active_settings)
 
 
 

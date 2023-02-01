@@ -17,7 +17,7 @@
                 <tr>
                     <th scope="row">{{ object.id }}</th>
                     <td>{{ object.sending_time }}</td>
-                    <td>{{ object.status }}</td>
+                    <td>{{ object.get_status_display }}</td>
                     <td>{{ object.server_response }}</td>
                     <td>{{ object.settings_pk.message.title|capfirst}}</td>
                     <td><a class="text-black" href="{% url 'mailing:delete_status' object.pk %}">Удалить</a></td>

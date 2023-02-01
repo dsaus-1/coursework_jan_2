@@ -1,12 +1,15 @@
+import pytz
 from mailing.models import *
 from django.core.mail import send_mail
-from config import settings
+from django.conf import settings
 import datetime
 
-def send_message(mail_list, active_settings, status_list):
+def send_message(active_settings):
+    status_list = []
+    mail_list = active_settings.addressee.all()
+
     for item in mail_list:
         try:
-
             send_mail(
                 subject=active_settings.message.title,
                 message=active_settings.message.text,
@@ -16,18 +19,18 @@ def send_message(mail_list, active_settings, status_list):
             )
 
         except:
-            server_response = {'sending_time': datetime.datetime.now(),
-                               'status': 'not_delivered',
+            server_response = {'sending_time': datetime.datetime.now().astimezone(pytz.timezone(settings.TIME_ZONE)),
+                               'status': Send_message.STATUS_NOT_DELIVERED,
                                'server_response': item.email,
                                'settings_pk': Settings.objects.get(pk=active_settings.id)}
             status_list.append(Send_message(**server_response))
 
         else:
-            server_response = {'sending_time': datetime.datetime.now(),
-                               'status': 'delivered',
+            server_response = {'sending_time': datetime.datetime.now().astimezone(pytz.timezone(settings.TIME_ZONE)),
+                               'status': Send_message.STATUS_DELIVERED,
                                'server_response': item.email,
                                'settings_pk': Settings.objects.get(pk=active_settings.id)}
             status_list.append(Send_message(**server_response))
 
-        finally:
-            Send_message.objects.bulk_create(status_list)
+
+    Send_message.objects.bulk_create(status_list)
