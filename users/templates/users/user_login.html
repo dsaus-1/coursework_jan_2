@@ -1,0 +1,20 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<main class="form-signin w-50 m-auto">
+
+    <form method="post" class="col-6">
+        <h1 class="h3 mb-3 fw-normal">Для авторизации введите данные:</h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="w-100 btn btn-lg btn-dark" type="submit">Войти</button>
+        <br>
+        <br>
+        <li><a class="text-muted" href="{% url 'users:password_reset' %}">Забыли пароль?</a></li>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    </form>
+</main>
+
+{% endblock %}

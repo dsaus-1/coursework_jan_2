@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_crontab',
 
     'mailing',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -144,9 +145,11 @@ EMAIL_HOST_PASSWORD = 'uujfafiznkigoqpr'
 EMAIL_USE_SSL = True
 
 
-CRONJOBS = [
-    ('* * * * *', 'mailing.services.automatic_mailing')
-]
+# CRONJOBS = [
+#     ('* * * * *', 'mailing.services.automatic_mailing')
+# ]
 
-
-
+AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/users/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

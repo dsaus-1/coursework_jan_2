@@ -34,6 +34,3 @@ def automatic_mailing():
 
                 if obj_time == time_now:
                     send_message(active_settings)
-
-
-

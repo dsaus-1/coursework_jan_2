@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,84 +10,146 @@ def home(request):
     return render(request, 'mailing/home_page.html')
 
 
-class ClientListView(ListView):
+class ClientListView(UserPassesTestMixin, ListView):
     model = Client
     template_name = 'mailing/client/client_list.html'
+    login_url = '/users/login'
 
-class ClientCreateView(CreateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+
+
+class ClientCreateView(UserPassesTestMixin, CreateView):
     model = Client
     fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
+    login_url = '/users/login'
 
-class ClientUpdateView(UpdateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class ClientUpdateView(UserPassesTestMixin, UpdateView):
     model = Client
     fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
+    login_url = '/users/login'
 
-class ClientDeleteView(DeleteView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class ClientDeleteView(UserPassesTestMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_confirm_delete.html'
+    login_url = '/users/login'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
-class SettingsListView(ListView):
+class SettingsListView(UserPassesTestMixin, ListView):
     model = Settings
     template_name = 'mailing/settings/settings_list.html'
+    login_url = '/users/login'
 
-class SettingsCreateView(CreateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class SettingsCreateView(UserPassesTestMixin, CreateView):
     model = Settings
     fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
+    login_url = '/users/login'
 
-class SettingsUpdateView(UpdateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class SettingsUpdateView(UserPassesTestMixin, UpdateView):
     model = Settings
     fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
+    login_url = '/users/login'
 
-class SettingsDeleteView(DeleteView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class SettingsDeleteView(UserPassesTestMixin, DeleteView):
     model = Settings
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_confirm_delete.html'
+    login_url = '/users/login'
 
-class SettingsDetailView(DetailView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class SettingsDetailView(UserPassesTestMixin, DetailView):
     model = Settings
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_detail.html'
+    login_url = '/users/login'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
-class MessageListView(ListView):
+class MessageListView(UserPassesTestMixin, ListView):
     model = Message
     template_name = 'mailing/message/message_list.html'
+    login_url = '/users/login'
 
-class MessageCreateView(CreateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class MessageCreateView(UserPassesTestMixin, CreateView):
     model = Message
     fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
+    login_url = '/users/login'
 
-class MessageUpdateView(UpdateView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class MessageUpdateView(UserPassesTestMixin, UpdateView):
     model = Message
     fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
+    login_url = '/users/login'
 
-class MessageDeleteView(DeleteView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class MessageDeleteView(UserPassesTestMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_confirm_delete.html'
+    login_url = '/users/login'
 
-class MessageDetailView(DetailView):
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+class MessageDetailView(UserPassesTestMixin, DetailView):
     model = Message
     template_name = 'mailing/message/message_detail.html'
+    login_url = '/users/login'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 
-class Send_messageListView(ListView):
+class Send_messageListView(UserPassesTestMixin, ListView):
     model = Send_message
     template_name = 'mailing/send/send_message_list.html'
+    login_url = '/users/login'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
 
 class Send_messageDeleteView(DeleteView):
     model = Send_message
