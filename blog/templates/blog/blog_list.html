@@ -1,0 +1,59 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+        <div class="text-center">
+
+            <h1 class="display-4"> Шаматха </h1>
+
+            {% for object in object_list %}
+                {% if object.publication_status == "active" or perms.blog.change_blog or user == object.owner %}
+
+                    <div class="card px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="width: 18rem;">
+                        <img src="/media/{{ object.image_preview }}" height=100/>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.header|title }}</h5>
+                            <p class="card-text">{{ object.content|slice:":80"|capfirst }}...</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Просмотров {{ object.number_of_views }}</li>
+                            <li class="list-group-item">Создано {{ object.date_created|date }}</li>
+                        </ul>
+
+                        <ul class="list-unstyled text-small">
+                            <li><a class="text-muted" href="{% url 'blog:detail' object.pk %}">Читать статью</a></li>
+                            {% if perms.blog.change_blog or user == object.owner %}
+                                <li><a class="text-warning-emphasis" href="{% url 'blog:update' object.pk %}">Обновить статью</a>
+                                </li>
+                            {% endif %}
+                            {% if perms.blog.change_blog %}
+                                <li>Текущий статус:
+                                    {% if object.publication_status == 'moderation' %}
+                                        <a class="text-danger-emphasis" href="{% url 'blog:change_post_status' object.pk %}">На
+                                            модерации</a></li>
+                                    {% else %}
+                                        <a class="text-success" href="{% url 'blog:change_post_status' object.pk %}">Активна</a>
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            {% endif %}
+
+                    </div>
+                    <br>
+
+
+                {% endif %}
+            {% endfor %}
+            <br>
+            <br>
+
+
+            <ul class="list-unstyled text-center ">
+                <li><a class="p-2 btn btn-outline-dark px-3 mx-auto margin-top-10" href="{% url 'blog:create' %}">Создать
+                    публикацию</a></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

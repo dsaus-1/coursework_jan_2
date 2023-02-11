@@ -1,0 +1,38 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+
+    <div class="container-xl">
+        <div class="text-center">
+            <img src="/media/{{ object.image_preview }}" height=300/>
+            <br>
+            <br>
+            <div class="card-body text-center ">
+                <h5 class="card-title">{{ object.header|title }}</h5>
+                <br>
+                <br>
+                <p class="text-center">{{ object.content|capfirst }}</p>
+
+                {% if perms.blog.change_blog %}
+                    <br>
+                    <br>
+                    <p class="text-center">Написал: {{ object.owner }}</p>
+                {% endif %}
+                {% if user == object.owner %}
+                    <br>
+                    <br>
+                    <p class="text-center">Текущий статус: {{ object.get_publication_status_display|capfirst }}</p>
+
+
+                    {% if object.publication_status == 'active' %}
+                        <a class="text-danger-emphasis" href="{% url 'blog:change_post_status' object.pk %}">Убрать с
+                            публикации</a>
+
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'mailing/base.html' %}
+
+{% block client_create %}
+    <div class="container-xl">
+        <div class="text-center">
+            <div class="col-4 ">
+                <div class="card ">
+                    <div class="card-body">
+                    <form enctype="multipart/form-data" method="post" class="text-center">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="p-2 btn btn-dark" type="submit">Создать статью</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+{% endblock %}

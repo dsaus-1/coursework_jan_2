@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import *
+
+from mailing.forms import ClientForm, MessageForm, SettingsForm
 from mailing.models import *
 from django.urls import reverse_lazy, reverse
 
@@ -21,9 +23,9 @@ class ClientListView(UserPassesTestMixin, ListView):
 
 class ClientCreateView(UserPassesTestMixin, CreateView):
     model = Client
-    fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
+    form_class = ClientForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -37,9 +39,9 @@ class ClientCreateView(UserPassesTestMixin, CreateView):
 
 class ClientUpdateView(UserPassesTestMixin, UpdateView):
     model = Client
-    fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
+    form_class = ClientForm
 
     def test_func(self):
         client = self.get_object()
@@ -68,9 +70,9 @@ class SettingsListView(UserPassesTestMixin, ListView):
 
 class SettingsCreateView(UserPassesTestMixin, CreateView):
     model = Settings
-    fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
+    form_class = SettingsForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -84,9 +86,9 @@ class SettingsCreateView(UserPassesTestMixin, CreateView):
 
 class SettingsUpdateView(UserPassesTestMixin, UpdateView):
     model = Settings
-    fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
+    form_class = SettingsForm
 
     def test_func(self):
         settings = self.get_object()
@@ -126,9 +128,9 @@ class MessageListView(UserPassesTestMixin, ListView):
 
 class MessageCreateView(UserPassesTestMixin, CreateView):
     model = Message
-    fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
+    form_class = MessageForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -142,9 +144,9 @@ class MessageCreateView(UserPassesTestMixin, CreateView):
 
 class MessageUpdateView(UserPassesTestMixin, UpdateView):
     model = Message
-    fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
+    form_class = MessageForm
 
     def test_func(self):
         message = self.get_object()
