@@ -17,6 +17,9 @@
                 <li><a href="{% url 'mailing:message' %}" class="nav-link px-2 text-white">Настроить рассылку</a></li>
                 <li><a href="{% url 'mailing:client' %}" class="nav-link px-2 text-white">База пользователей</a></li>
                 <li><a href="{% url 'mailing:status' %}" class="nav-link px-2 text-white">Статус рассылки</a></li>
+                {% if perms.users.view_user %}
+                <li><a href="{% url 'users:users_list' %}" class="nav-link px-2 text-white">Список аккаунтов</a></li>
+                {% endif %}
             </ul>
 
             <div class="text-end">

@@ -10,17 +10,24 @@
                 <th scope="col">Статус</th>
                 <th scope="col">Ответ сервера</th>
                 <th scope="col">Сообщение</th>
+                <th scope="col">Отправлено</th>
             </tr>
             </thead>
             <tbody>
             {% for object in object_list %}
                 <tr>
-                    <th scope="row">{{ object.id }}</th>
-                    <td>{{ object.sending_time }}</td>
-                    <td>{{ object.get_status_display }}</td>
-                    <td>{{ object.server_response }}</td>
-                    <td>{{ object.settings_pk.message.title|capfirst}}</td>
-                    <td><a class="text-black" href="{% url 'mailing:delete_status' object.pk %}">Удалить</a></td>
+                    {% if user == object.owner or perms.mailing.view_send_message %}
+                        <th scope="row">{{ object.id }}</th>
+                        <td>{{ object.sending_time }}</td>
+                        <td>{{ object.get_status_display }}</td>
+                        <td>{{ object.server_response }}</td>
+                        <td>{{ object.settings_pk.message.title|capfirst }}</td>
+                        <td>{{ object.owner }}</td>
+                        {% if user.is_superuser %}
+                            <td><a class="text-black" href="{% url 'mailing:delete_status' object.pk %}">Удалить</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
                 </tr>
             {% endfor %}
 

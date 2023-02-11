@@ -13,7 +13,6 @@ def home(request):
 class ClientListView(UserPassesTestMixin, ListView):
     model = Client
     template_name = 'mailing/client/client_list.html'
-    login_url = '/users/login'
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -25,7 +24,13 @@ class ClientCreateView(UserPassesTestMixin, CreateView):
     fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
-    login_url = '/users/login'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.owner = self.request.user
+            self.object.save()
+        return super(ClientCreateView, self).form_valid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -35,25 +40,28 @@ class ClientUpdateView(UserPassesTestMixin, UpdateView):
     fields = ('email', 'fio', 'comment')
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_form.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        client = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == client.owner
 
 class ClientDeleteView(UserPassesTestMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('mailing:client')
     template_name = 'mailing/client/client_confirm_delete.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        client = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == client.owner
 
 
 class SettingsListView(UserPassesTestMixin, ListView):
     model = Settings
     template_name = 'mailing/settings/settings_list.html'
-    login_url = '/users/login'
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -63,7 +71,13 @@ class SettingsCreateView(UserPassesTestMixin, CreateView):
     fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
-    login_url = '/users/login'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.owner = self.request.user
+            self.object.save()
+        return super(SettingsCreateView, self).form_valid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -73,34 +87,39 @@ class SettingsUpdateView(UserPassesTestMixin, UpdateView):
     fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_form.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        settings = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == settings.owner
 
 class SettingsDeleteView(UserPassesTestMixin, DeleteView):
     model = Settings
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_confirm_delete.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        settings = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == settings.owner
 
 class SettingsDetailView(UserPassesTestMixin, DetailView):
     model = Settings
     success_url = reverse_lazy('mailing:settings')
     template_name = 'mailing/settings/settings_detail.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        message = self.get_object()
+        if self.request.user == message.owner:
+            return True
+        return self.request.user.has_perm('mailing.view_settings')
 
 
 class MessageListView(UserPassesTestMixin, ListView):
     model = Message
     template_name = 'mailing/message/message_list.html'
-    login_url = '/users/login'
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -110,7 +129,13 @@ class MessageCreateView(UserPassesTestMixin, CreateView):
     fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
-    login_url = '/users/login'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.owner = self.request.user
+            self.object.save()
+        return super(MessageCreateView, self).form_valid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -120,62 +145,59 @@ class MessageUpdateView(UserPassesTestMixin, UpdateView):
     fields = ('title', 'text')
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_form.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        message = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == message.owner
 
 class MessageDeleteView(UserPassesTestMixin, DeleteView):
     model = Message
     success_url = reverse_lazy('mailing:message')
     template_name = 'mailing/message/message_confirm_delete.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        message = self.get_object()
+        if self.request.user.is_superuser:
+            return True
+        return self.request.user == message.owner
 
 class MessageDetailView(UserPassesTestMixin, DetailView):
     model = Message
     template_name = 'mailing/message/message_detail.html'
-    login_url = '/users/login'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        message = self.get_object()
+        if self.request.user == message.owner:
+            return True
+        return self.request.user.has_perm('mailing.view_message')
 
 
 class Send_messageListView(UserPassesTestMixin, ListView):
     model = Send_message
     template_name = 'mailing/send/send_message_list.html'
-    login_url = '/users/login'
 
     def test_func(self):
         return self.request.user.is_authenticated
 
-class Send_messageDeleteView(DeleteView):
+class Send_messageDeleteView(UserPassesTestMixin, DeleteView):
     model = Send_message
     success_url = reverse_lazy('mailing:status')
     template_name = 'mailing/send/send_message_confirm_delete.html'
 
-#
-# def send(request, pk):
-#     obj_mail = get_object_or_404(Message, pk=pk)
-#     # if obj_mail.settings.status == 'не доставлено':
-#     #     if obj_mail.settings.mailing_time
-#     mail_list = obj_mail.addressee.all()
-#
-#     for num in range(len(mail_list)):
-#
-#         send_mail(
-#             subject=obj_mail.title,
-#             message=obj_mail.text,
-#             from_email=settings.EMAIL_HOST_USER,
-#             recipient_list=[mail_list[num].email],
-#         )
-#
-#     return redirect(reverse('mailing:detail_message', kwargs={'pk':pk}))
-#
+    def test_func(self):
+        return self.request.user.is_superuser
 
-# class RegisterUser(DataMixin, CreateView):
-#     form_class = UserCreationForm
-#     template_name = 'mailing/register_form.html'
-#     success_url = reverse_lazy('mailing:login')
+
+def change_status_settings(request, pk):
+    """Смена статуса настройки"""
+    obj = get_object_or_404(Settings, pk=pk)
+    if obj.status == Settings.STATUS_COMPLETED or obj.status == Settings.STATUS_CREATED:
+        obj.status = Settings.STATUS_LAUNCHED
+    elif obj.status == Settings.STATUS_LAUNCHED:
+        obj.status = Settings.STATUS_COMPLETED
+    obj.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))
+

@@ -16,18 +16,37 @@
             <tbody>
             {% for object in object_list %}
                 <tr>
-                    <th scope="row">{{ object.id }}</th>
-                    <td>{{ object.mailing_time }}</td>
-                    <td>{{ object.get_frequency_display }}</td>
-                    <td>{{ object.get_status_display }}</td>
-                    <td>{{ object.message.title }}</td>
-                    <td>{% for address in object.addressee.all %}
-                        {{ address.email }}<br>
-                    {% endfor %}
-                    </td>
-                    <td><a class="text-black" href="{% url 'mailing:detail_settings' object.pk %}">Подробнее</a></td>
-                    <td><a class="text-black" href="{% url 'mailing:update_settings' object.pk %}">Изменить</a></td>
-                    <td><a class="text-black" href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a></td>
+                    {% if user == object.owner or perms.mailing.view_settings %}
+                        <th scope="row">{{ object.id }}</th>
+                        <td>{{ object.mailing_time }}</td>
+                        <td>{{ object.get_frequency_display }}</td>
+                        {% if user == object.owner or perms.mailing.change_status_settings %}
+                            {% if object.get_status_display == 'завершена' %}
+                                <td><a class="btn btn-outline-danger me-2"
+                                       href="{% url 'mailing:change_status_settings' object.pk %}">Не
+                                    активна</a></td>
+                            {% else %}
+                                <td><a class="btn btn-outline-success me-2"
+                                       href="{% url 'mailing:change_status_settings' object.pk %}">Активна</a>
+                                </td>
+                            {% endif %}
+                        {% else %}
+                            {{ object.get_status_display }}
+                        {% endif %}
+                        <td>{{ object.message.title }}</td>
+                        <td>{% for address in object.addressee.all %}
+                            {{ address.email }}<br>
+                        {% endfor %}
+                        </td>
+                        <td><a class="text-black" href="{% url 'mailing:detail_settings' object.pk %}">Подробнее</a>
+                        </td>
+                        {% if user == object.owner or user.is_superuser %}
+                            <td><a class="text-black" href="{% url 'mailing:update_settings' object.pk %}">Изменить</a>
+                            </td>
+                            <td><a class="text-black" href="{% url 'mailing:delete_settings' object.pk %}">Удалить</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
                 </tr>
             {% endfor %}
 

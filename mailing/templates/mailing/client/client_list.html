@@ -14,12 +14,18 @@
             <tbody>
             {% for object in object_list %}
                 <tr>
-                    <th scope="row">{{ object.id }}</th>
-                    <td>{{ object.fio }}</td>
-                    <td>{{ object.email }}</td>
-                    <td>{{ object.comment }}</td>
-                    <td><a class="text-black" href="{% url 'mailing:update_client' object.pk %}">Изменить</a></td>
-                    <td><a class="text-black" href="{% url 'mailing:delete_client' object.pk %}">Удалить</a></td>
+                    {% if user == object.owner or perms.mailing.view_client %}
+                        <th scope="row">{{ object.id }}</th>
+                        <td>{{ object.fio }}</td>
+                        <td>{{ object.email }}</td>
+                        <td>{{ object.comment }}</td>
+                        {% if user == object.owner or user.is_superuser %}
+                            <td><a class="text-black" href="{% url 'mailing:update_client' object.pk %}">Изменить</a>
+                            </td>
+                            <td><a class="text-black" href="{% url 'mailing:delete_client' object.pk %}">Удалить</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
                 </tr>
             {% endfor %}
 

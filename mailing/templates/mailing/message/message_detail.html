@@ -11,6 +11,11 @@
         </p>
         <p>{{ object.text }}</p>
         <br>
+        {% if perms.mailing.view_message %}
+           Пользователь: {{ object.owner }}
+        {% endif %}
+        <br>
+        <br>
 
         <td><a class="p-2 btn btn-dark" href="{% url 'mailing:message' %}">Назад</a></td>
 

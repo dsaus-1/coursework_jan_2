@@ -18,6 +18,12 @@
                         < {{ address.email }} >
                         {% endfor %} </p>
 
+         {% if perms.mailing.view_settings %}
+           Пользователь: {{ object.owner }}
+        {% endif %}
+           <br>
+        <br>
+
         <td><a class="p-2 btn btn-dark" href="{% url 'mailing:settings' %}">Назад</a></td>
 
     </div>
