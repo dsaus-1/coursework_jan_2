@@ -1,8 +1,11 @@
 {% extends 'mailing/base.html' %}
 
+{% load mailing_count %}
+{% load users_count %}
 {% block home %}
 
     <div class="container-xl">
+    <br>
         <div class="row">
             <div class="col-3 ">
                 <img src="/static/image/1639479823_3-pofoto-club-p-pochtovii-golub-ptitsi-foto-3.jpg" width="100%"/>
@@ -26,11 +29,8 @@
             </div>
         </div>
         <div style="content">
-            <div>
 
-            </div>
             <div>
-                <br>
                 <br>
                 <br>
                 Наши серверы расположены в нескольких надежных дата-центрах на территории РФ, а все программное
@@ -40,15 +40,77 @@
                 <br>Тарифы "Спам и точка" не привязаны к валютам и рассчитываются исключительно в рублях. Цены на услуги
                 не будут меняться в ближайшее время.
             </div>
-            <div>
-                Всего создано йцйцйц рассылок на нашем сервесе.
+            <br>
+        </div>
+        <div class="container">
 
-                Активных рассылок {{  }}
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm text-center" style="background: #e0e0e0">
+                        <figure class="p-3 mb-0">
+                            Через наш сайт было создано {% mailing_count %}.<br>
+                            <br>
+                            На данный момент запущен{% active_mailing_count %}.
+                        </figure>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="" >
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm text-center" style="background: #e0e0e0">
+                        <figure class="p-3 mb-0">
+                            Сервисом "Спам и точка" пользуются {% user_count %}.<br>
+                            <br>
+                            Через наш сервис охватили {% client_count %}.
+                        </figure>
+                    </div>
+                </div>
             </div>
         </div>
+        <br>
+        <div class="text-center">
+            <h1 class="display-4"> Читайте наш блог: </h1>
+        </div>
+        <br>
 
-        <div style="clear: both;"></div>
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for publication in blog %}
+                <div class="col">
+                <div class="card shadow-sm" style="background: #e0e0e0">
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225"
+                         src="/media/{{ publication.first.image_preview }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ publication.first.header|capfirst }}</h5>
+                        <p class="card-text">{{ publication.first.content|slice:":80"|capfirst }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group col-3">
+                                <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'blog:detail' publication.first.pk %}">Читать</a>
+                            </div>
+                            <small class="text-muted">{{ publication.first.date_created|date }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <br>
+            {% endfor %}
+        </div>
     </div>
+    <br>
+    </div>
+
+
+
+
+
+
+
+    <div style="clear: both;"></div>
+
 
 
 

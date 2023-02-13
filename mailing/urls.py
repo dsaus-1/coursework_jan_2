@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 from mailing.apps import MailingConfig
 from mailing.views import *
 
 app_name = MailingConfig.name
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', cache_page(60)(home), name='home'),
     path('create_client/', ClientCreateView.as_view(), name='create_client'),
     path('update_client/<int:pk>/', ClientUpdateView.as_view(), name='update_client'),
     path('delete_client/<int:pk>/', ClientDeleteView.as_view(), name='delete_client'),

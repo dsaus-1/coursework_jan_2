@@ -17,7 +17,7 @@ class Blog(models.Model):
 
     header = models.CharField(max_length=50, verbose_name='Заголовок')
     content = models.CharField(max_length=900, verbose_name='Содержимое')
-    image_preview = models.ImageField(upload_to='product/', **NULLABLE, verbose_name='Изображение')
+    image_preview = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='Изображение')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     publication_status = models.CharField(max_length=15, default=STATUS_MODERATION, choices=STATUSES, verbose_name='Статус публикации')
     number_of_views = models.IntegerField(default=0, verbose_name='количество просмотров')

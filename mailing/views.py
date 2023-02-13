@@ -1,15 +1,22 @@
+import random
+
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.core.mail import send_mail
-from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import *
 
+from blog.models import Blog
 from mailing.forms import ClientForm, MessageForm, SettingsForm
 from mailing.models import *
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 
 def home(request):
-    return render(request, 'mailing/home_page.html')
+    blog = Blog.objects.filter(publication_status=Blog.STATUS_ACTIVE)
+    blog_id = [item[0] for item in blog.values_list('id')]
+    random.shuffle(blog_id)
+    if len(blog_id) < 3:
+        return render(request, 'mailing/home_page.html', {'blog': [blog.filter(id=blog_id[n]) for n in range(len(blog_id))]})
+
+    return render(request, 'mailing/home_page.html', {'blog':[blog.filter(id=blog_id[n]) for n in range(3)]})
 
 
 class ClientListView(UserPassesTestMixin, ListView):

@@ -12,7 +12,7 @@
                     <div class="card px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="width: 18rem;">
                         <img src="/media/{{ object.image_preview }}" height=100/>
                         <div class="card-body">
-                            <h5 class="card-title">{{ object.header|title }}</h5>
+                            <h5 class="card-title">{{ object.header|capfirst }}</h5>
                             <p class="card-text">{{ object.content|slice:":80"|capfirst }}...</p>
                         </div>
                         <ul class="list-group list-group-flush">

@@ -32,6 +32,7 @@ class BlogUpdateView(UserPassesTestMixin, UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'blog/blog_form.html'
+    success_url = reverse_lazy('blog:list')
 
 
     def test_func(self):

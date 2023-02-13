@@ -8,14 +8,17 @@ class ClientForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
+        exclude = ('owner',)
 
 
 class MessageForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ('title', 'text',)
+        exclude = ('owner',)
 
 class SettingsForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Settings
         fields = ('mailing_time', 'frequency', 'status', 'message', 'addressee')
+        exclude = ('owner',)
