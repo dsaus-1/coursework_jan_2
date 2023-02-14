@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
@@ -8,7 +8,8 @@ from mailing.views import *
 app_name = MailingConfig.name
 
 urlpatterns = [
-    path('', cache_page(60)(home), name='home'),
+    # path('', home, name='home'),
+    # path('home2/', home2, name='home2'),
     path('create_client/', ClientCreateView.as_view(), name='create_client'),
     path('update_client/<int:pk>/', ClientUpdateView.as_view(), name='update_client'),
     path('delete_client/<int:pk>/', ClientDeleteView.as_view(), name='delete_client'),
@@ -26,6 +27,6 @@ urlpatterns = [
     path('status/', Send_messageListView.as_view(), name='status'),
     path('delete_status/<int:pk>/', Send_messageDeleteView.as_view(), name='delete_status'),
     path('change_status_settings/<int:pk>/', change_status_settings, name='change_status_settings'),
-    # path('send/<int:pk>/', send, name='send'),
+
 
 ]

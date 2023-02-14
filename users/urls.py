@@ -9,11 +9,11 @@ app_name = UsersConfig.name
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(extra_context='/blog/home'), name='logout'),
     path('registration/', CustomRegisterView.as_view(), name='registration'),
     path('page_after_registration/', page_after_registration, name='page_after_registration'),
     path('profile/', UserEditProfileView.as_view(), name='profile'),
-    path('password/', CustomPasswordChangeView.as_view(), name='password'), # пытался сделать change_password, но что-то как-то сложно...
+    path('password/', CustomPasswordChangeView.as_view(), name='password'), # пытался сделать урл change_password, но что-то как-то сложно...
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
     path('password_reset_send_mail/', password_reset_send_mail, name='password_reset_send_mail'),
     path('password_reset_complete/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
@@ -5,6 +6,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from blog.forms import BlogForm
 from blog.models import Blog
+from blog.services import cache_home_page_all, random_publication
 
 
 # Create your views here.
@@ -55,6 +57,7 @@ class BlogDetailView(UserPassesTestMixin, DetailView):
     def test_func(self):
         return self.request.user.is_authenticated
 
+@permission_required(perm='blog.change_blog')
 def change_post_status(request, pk):
     """Смена статуса поста"""
     obj = get_object_or_404(Blog, pk=pk)
@@ -66,3 +69,14 @@ def change_post_status(request, pk):
 
     return redirect(request.META.get('HTTP_REFERER'))
 
+class HomeListView(ListView):
+    model = Blog
+    template_name = 'mailing/home_page.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        context_data['cache_home_page_all'] = cache_home_page_all()
+        context_data['cache_home_page'] = random_publication(context_data['cache_home_page_all'])
+
+        return context_data

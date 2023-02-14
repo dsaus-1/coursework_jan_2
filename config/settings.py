@@ -150,14 +150,15 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 
 
-# CRONJOBS = [
-#     ('* * * * *', 'mailing.services.automatic_mailing')
-# ]
+CRONJOBS = [
+    ('* * * * *', 'mailing.services.automatic_mailing'),
+    ('0 14 */1 * *', 'users.services.delete_not_confirmed_user'),
+]
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/blog/home'
+LOGOUT_REDIRECT_URL = '/blog/home'
 
 CACHE_ENABLED = os.getenv('CACHE_ENABLED')
 

@@ -12,8 +12,10 @@
             </tr>
             </thead>
             <tbody>
+
             {% for object in object_list %}
                 <tr>
+
                     {% if user == object.owner or perms.mailing.view_client %}
                         <th scope="row">{{ object.id }}</th>
                         <td>{{ object.fio }}</td>

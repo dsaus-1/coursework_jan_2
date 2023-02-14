@@ -3,16 +3,17 @@
 {% block content %}
     <div class="container-xl">
         <div class="text-center">
+        <font size="4" color="#472929" face="sans-serif">
 
             <h1 class="display-4"> Шаматха </h1>
 
             {% for object in object_list %}
                 {% if object.publication_status == "active" or perms.blog.change_blog or user == object.owner %}
 
-                    <div class="card px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="width: 18rem;">
-                        <img src="/media/{{ object.image_preview }}" height=100/>
+                    <div class="card px-3 py-3 pt-md-5 pb-md-6 mx-auto text-center" style="width: 19rem;">
+                        <img src="/media/{{ object.image_preview }}" height=140/>
                         <div class="card-body">
-                            <h5 class="card-title">{{ object.header|capfirst }}</h5>
+                            <h4 style="font-weight:bold">{{ object.header|capfirst }}</h4>
                             <p class="card-text">{{ object.content|slice:":80"|capfirst }}...</p>
                         </div>
                         <ul class="list-group list-group-flush">
