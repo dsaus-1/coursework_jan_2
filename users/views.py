@@ -38,18 +38,19 @@ class CustomRegisterView(CreateView):
             self.user_token = self.object.token
         return super().form_valid(form)
 
+    def get_success_url(self):
+        new_url = super().get_success_url()
+        token = self.object.token
+        return str(new_url) + str(token)
 
 
-def page_after_registration(request):
-    # if request.method == 'POST':
-    #     obj = User.objects.filter(token=token)
-    #     confirm_account(obj)
-    return render(request, 'users/page_after_registration.html', )
 
-# TODO: сделать повторную отправку сообщения
-# def repeat_message(request, token):
-#
-#         return render(request, )
+def page_after_registration(request, token):
+    if request.method == 'POST':
+        obj = get_object_or_404(User, token=token)
+        confirm_account(obj)
+    return render(request, 'users/page_after_registration.html')
+
 
 class UserEditProfileView(UserPassesTestMixin, UpdateView):
     """Редактировать профиль"""

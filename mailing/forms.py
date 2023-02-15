@@ -17,6 +17,7 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
         fields = ('title', 'text',)
         exclude = ('owner',)
 
+
 class SettingsForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Settings

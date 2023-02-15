@@ -11,7 +11,7 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(extra_context='/blog/home'), name='logout'),
     path('registration/', CustomRegisterView.as_view(), name='registration'),
-    path('page_after_registration/', page_after_registration, name='page_after_registration'),
+    path('page_after_registration/<str:token>/', page_after_registration, name='page_after_registration'),
     path('profile/', UserEditProfileView.as_view(), name='profile'),
     path('password/', CustomPasswordChangeView.as_view(), name='password'), # пытался сделать урл change_password, но что-то как-то сложно...
     path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),

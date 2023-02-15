@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 
 from mailing.forms_mixins import StyleFormMixin
 from users.models import User
-from django.utils.translation import gettext_lazy as _
+
 
 
 class CustomAuthenticationForm(StyleFormMixin, AuthenticationForm):

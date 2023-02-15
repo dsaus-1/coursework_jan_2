@@ -7,9 +7,10 @@
         <br>
         <h5 class="display-8">Для подтверждения аккаунта, на почту была отправлена ссылка, перейдите по ней для
             завершения регистрации</h5>
-{#        <form method="post" class="col-4">#}
-{#            <button class="p-2 btn btn-dark" type="button">Отправить повторно</button>#}
-{#        </form>#}
+        <form action="" method="post">
+            {% csrf_token %}
+            <input class="p-2 btn btn-dark" type="submit" name="upvote" value="Отправить повторно"/>
+        </form>
 
     </div>
 
