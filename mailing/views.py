@@ -93,6 +93,11 @@ class SettingsCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.is_authenticated
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'owner':self.request.user})
+        return kwargs
+
 class SettingsUpdateView(UserPassesTestMixin, UpdateView):
     model = Settings
     success_url = reverse_lazy('mailing:settings')
