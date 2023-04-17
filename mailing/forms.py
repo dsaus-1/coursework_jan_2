@@ -25,8 +25,9 @@ class SettingsForm(StyleFormMixin, forms.ModelForm):
         exclude = ('owner',)
 
     def __init__(self, *args, **kwargs):
-        owner = kwargs.pop('owner')
+        owner = kwargs.get('owner')
         super().__init__(*args, **kwargs)
+
 
         self.fields['addressee'].queryset = Client.objects.filter(owner=owner)
         self.fields['message'].queryset = Message.objects.filter(owner=owner)
